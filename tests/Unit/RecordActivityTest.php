@@ -1,0 +1,46 @@
+<?php
+
+namespace Tests\Unit;
+
+use App\Models\Reply;
+use App\Models\Thread;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+use Tests\Traits\RefreshRedis;
+
+class RecordActivityTest extends TestCase
+{
+     use RefreshDatabase, RefreshRedis;
+
+     public function test_create_thread_also_record_activity()
+     {
+         $user = $this->signIn();
+        $thread = create(Thread::class);
+
+        $this->assertDatabaseHas('activities', [
+            'subject_id' => $thread->id,
+            'subject_type' => Thread::class,
+            'user_id' => $user->id,
+            'type' => 'thread_created'
+        ]);
+
+         self::assertDatabaseHas('activities', ['subject_type' => Thread::class, 'subject_id' => $thread->id]);
+     }
+
+     public function test_create_reply_also_record_activity()
+     {
+         $user = $this->signIn();
+        $reply = create(Reply::class);
+
+        $this->assertDatabaseHas('activities', [
+            'subject_id' => $reply->id,
+            'subject_type' => Reply::class,
+            'user_id' => $user->id,
+            'type' => 'reply_created'
+        ]);
+
+        self::assertDatabaseHas('activities', ['subject_type' => Reply::class, 'subject_id' => $reply->id]);
+     }
+
+
+}
