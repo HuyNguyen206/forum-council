@@ -92,7 +92,7 @@ class CreateThreadTest extends TestCase
         $thread = create(Thread::class);
         $replies = create(Reply::class, ['thread_id' => $thread->id], 10);
 
-        $this->deleteJson(route('threads.destroy', [$thread->slug, $thread->id]))->assertStatus(401);
+        $this->deleteJson(route('threads.destroy', [$thread->slug]))->assertStatus(401);
 
         $replies->each(fn($reply) => $this->assertDatabaseHas('replies', ['thread_id' => $thread->id, 'id' => $reply->id]));
         $this->assertCount(10, $thread->replies);
@@ -105,7 +105,7 @@ class CreateThreadTest extends TestCase
         $thread = create(Thread::class, ['user_id' => $user->id]);
 
         $anotherThread = create(Thread::class);
-        $this->deleteJson(route('threads.destroy', [$anotherThread->id, $anotherThread->slug]))->assertStatus(403);
+        $this->deleteJson(route('threads.destroy', [$anotherThread->slug]))->assertStatus(403);
 
         Thread::all()->each(fn($thread) => $this->assertDatabaseHas('threads', ['id' => $thread->id]));
         $this->assertCount(2, Thread::all());

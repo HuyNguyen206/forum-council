@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\MentionedNotification;
+use App\Reputation;
 use App\Traits\RecordActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,15 +22,19 @@ class Reply extends Model
 
     protected static function booted()
     {
-        $events = ['creating', 'updating'];
+        $events = ['creating', 'updating', 'created'];
         foreach ($events as $event) {
-            static::$event(function (Reply $reply) use($event) {
-                Notification::send($reply->getUsersByMentionNames(), new MentionedNotification($reply));
-                $reply->body = static::wrapMentionUserNameInAnchor($reply);
-                $thread =  $reply->thread;
-                $thread->touch();
-                $thread->cacheThreadIgnoreUser($reply->user_id);
-                static::notifiySubscribeUsers($reply, $event);
+            static::$event(function (Reply $reply) use ($event) {
+                if (in_array($event, ['creating', 'updating'])) {
+                    Notification::send($reply->getUsersByMentionNames(), new MentionedNotification($reply));
+                    $reply->body = static::wrapMentionUserNameInAnchor($reply);
+                    $thread = $reply->thread;
+                    $thread->touch();
+                    $thread->cacheThreadIgnoreUser($reply->user_id);
+                    static::notifiySubscribeUsers($reply, $event);
+                } else {
+                    Reputation::award(Reputation::REPLY_POSTED,  $reply->user);
+                }
             });
         }
     }
@@ -37,7 +42,7 @@ class Reply extends Model
     protected static function wrapMentionUserNameInAnchor($reply)
     {
         $resultString = $reply->body;
-        $reply->getUsersByMentionNames()->each(function ($user) use(&$resultString) {
+        $reply->getUsersByMentionNames()->each(function ($user) use (&$resultString) {
             $replaceValue = $user->generateProfileLink();
             $resultString = str_replace($user->name_slug, $replaceValue, $resultString);
         });
@@ -49,6 +54,7 @@ class Reply extends Model
     {
         return $this->id === $bestReplyId;
     }
+
     public function getUsersByMentionNames()
     {
         return User::query()->whereIn('name_slug', $this->getMentionUserNames())->get();

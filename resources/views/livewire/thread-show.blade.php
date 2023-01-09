@@ -4,8 +4,13 @@
              @thread-updated.window="edit = false"
         >
             <article class="p-4" x-show="!edit">
-                <h2 class="font-semibold text-xl"><a href="" class="text-blue-500">{{$thread->user->name}}</a>
-                    posted {{$thread->title}}</h2>
+                <div class="flex justify-between">
+                    <h2 class="font-semibold text-xl">
+                        <a href="" class="text-blue-500">{{$thread->user->name}}</a>
+                        posted {{$thread->title}}
+                    </h2>
+                    <span>{{$thread->user->getPointFormat()}}</span>
+                </div>
                 <hr>
                 <p>
                     {!! $thread->body !!}

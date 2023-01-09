@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\ThreadUpdateHighlight;
+use App\Reputation;
 use App\Services\ThreadsVisits;
 use App\Traits\RecordActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,7 @@ class Thread extends Model
     protected static function booted()
     {
         static::created(function (Thread $thread) {
+            Reputation::award(Reputation::THREAD_WAS_CREATED, $thread->user);
             if (auth()->user()) {
                 $thread->cacheKey();
             }
@@ -64,22 +66,23 @@ class Thread extends Model
         $this->update([
             'best_reply_id' => $bestReplyId
         ]);
+        Reputation::award(Reputation::BEST_REPLY_AWARDED, Reply::find($replyId)->user);
     }
 
     public function showThreadPath()
     {
-        return route('threads.show', [$this->id, $this->slug]);
+        return route('threads.show', [$this->slug]);
     }
 
     public function destroyThreadPath()
     {
-        return route('threads.destroy', [$this->id, $this->slug]);
+        return route('threads.destroy', [$this->slug]);
     }
 
-//    public function getRouteKeyName()
-//    {
-//        return 'slug';
-//    }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function visits()
     {

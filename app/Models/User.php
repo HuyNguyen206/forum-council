@@ -3,12 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Reputation;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -135,13 +137,25 @@ class User extends Authenticatable implements MustVerifyEmail
         $favorite = Favorite::query()
             ->where('user_id', $model->id)
             ->where('favorite_type', Reply::class)
-            ->where('favorite_id', current($pivotIds))
+            ->where('favorite_id', $replyId = current($pivotIds))
             ->first();
-        $action = $event === 'pivotAttached' ? 'create' : 'where';
+        if ($event === 'pivotAttached') {
+            $action = 'create';
+            Reputation::award(Reputation::REPLY_FAVORITED, Reply::find($replyId)->user);
+        } else {
+            $action = 'where';
+        }
+
         $isCreate = $action === 'create';
         $builder = Activities::$action(['type' => "favorite_created", 'user_id' => auth()->id(), 'subject_type' => Favorite::class, 'subject_id' => $favorite->id]);
         if (!$isCreate) {
+            Reputation::reduce(Reputation::REPLY_FAVORITED, Reply::find($replyId)->user);
             $builder->delete();
         }
+    }
+
+    public function getPointFormat()
+    {
+        return $this->points . ' ' . Str::plural('xp', $this->points);
     }
 }

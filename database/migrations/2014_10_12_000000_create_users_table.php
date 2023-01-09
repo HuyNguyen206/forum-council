@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_slug');
+            $table->unsignedBigInteger('points')->default(0);
             $table->string('image_path')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

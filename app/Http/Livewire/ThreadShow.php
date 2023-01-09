@@ -57,7 +57,7 @@ class ThreadShow extends Component
 
         $this->dispatchBrowserEvent('thread-updated');
         $this->dispatchBrowserEvent('notify', ['message' => 'Your thread was update successfully!']);
-        $this->dispatchBrowserEvent('updated-url', ['url' => route('threads.show', [$this->thread->id, $this->thread->slug])]);
+        $this->dispatchBrowserEvent('updated-url', ['url' => route('threads.show', $this->thread->slug)]);
     }
 
     public function resetData()

@@ -32,8 +32,8 @@ return [
     ],
 
     'google' => [
-        'captcha_site_key' => env('GOOGLE_CAPTCHA_SITE_KEY'),
-        'captcha_secret_key' => env('GOOGLE_CAPTCHA_SECRET_KEY')
+        'captcha_site_key' => env('APP_ENV') !== 'local' ? env('GOOGLE_CAPTCHA_SITE_KEY') : env('GOOGLE_CAPTCHA_SITE_TEST_KEY'),
+        'captcha_secret_key' =>  env('APP_ENV') !== 'local' ? env('GOOGLE_CAPTCHA_SECRET_KEY') : env('GOOGLE_CAPTCHA_SECRET_TEST_KEY'),
     ]
 
 ];

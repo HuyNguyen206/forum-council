@@ -136,5 +136,4 @@ class ReadThreadTest extends TestCase
             $response->assertSee($thread->title);
         });
     }
-
 }

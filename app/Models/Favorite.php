@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Listeners\AwardReplyFavorited;
+use App\Reputation;
 use App\Traits\RecordActivity;
 use Chelout\RelationshipEvents\Concerns\HasMorphedByManyEvents;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;

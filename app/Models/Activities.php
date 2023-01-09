@@ -15,16 +15,26 @@ class Activities extends Model
         return $this->morphTo();
     }
 
-    public function getThreadId()
+    public function getThread()
     {
         if ($this->subject instanceof Thread) {
-            return $this->subject_id;
+            return $this->subject;
         }
 
         if ($this->subject instanceof Reply) {
-            return $this->subject->thread_id;
+            return $this->subject->thread;
         }
 
-        return Thread::find(Reply::find($this->subject->favorite_id)->thread_id)->id;
+        return Thread::find(Reply::find($this->subject->favorite_id)->thread_id);
+    }
+
+    public function getThreadId()
+    {
+        return $this->getThread()->id;
+    }
+
+    public function getThreadSlug()
+    {
+        return $this->getThread()->slug;
     }
 }

@@ -40,7 +40,7 @@ class MentionedNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        $threadPath = route('threads.show', [$this->reply->thread->slug, $this->reply->thread_id])."#reply-{$this->reply->id}";
+        $threadPath = route('threads.show', $this->reply->thread->slug)."#reply-{$this->reply->id}";
 
         return [
             'reply' => $this->reply,

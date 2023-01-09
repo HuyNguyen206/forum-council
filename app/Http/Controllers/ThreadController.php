@@ -53,7 +53,7 @@ class ThreadController extends Controller
         return redirect($thread->showThreadPath())->with('message', 'The thread was created successfully!');
     }
 
-    public function show(Thread $thread, $slug, ThreadsTrending $trending, ThreadsVisits $threadsVisits)
+    public function show(Thread $thread, ThreadsTrending $trending, ThreadsVisits $threadsVisits)
     {
         $trending->push($thread->id);
         $threadsVisits->recordVisits($thread->id);
@@ -66,7 +66,7 @@ class ThreadController extends Controller
         return view('threads.show', compact('thread'));
     }
 
-    public function destroy(Thread $thread, $slug)
+    public function destroy(Thread $thread)
     {
         $this->authorize('delete', $thread);
 //        abort_if($thread->user_id !== auth()->id(), 403, 'You can delete only your threads');

@@ -7,6 +7,7 @@ use App\Models\Favorite;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Notifications\ThreadUpdateNotification;
+use App\Reputation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
@@ -24,6 +25,15 @@ trait RecordActivity
                         static::handleDeleting($model);
                     } else {
                         $model->activities()->create(['type' => strtolower(class_basename($model)) . "_$event", 'user_id' => auth()->id()]);
+                    }
+                }
+                if ($event === 'deleting') {
+                    if ($model instanceof Thread) {
+                        Reputation::reduce(Reputation::THREAD_WAS_CREATED, $model->user);
+                    }
+
+                    if ($model instanceof Reply) {
+                        Reputation::reduce(Reputation::REPLY_POSTED, $model->user);
                     }
                 }
             });
@@ -72,7 +82,7 @@ trait RecordActivity
         $ownerThread = $reply->thread->user;
         $subscribeUsers = $subscribeUsers->push($ownerThread)->where('id', '<>', auth()->id());
 
-        $routeThread = route('threads.show',[$reply->thread->slug,  $reply->thread->id]);
+        $routeThread = route('threads.show',[$reply->thread->slug]);
         $title = $reply->thread->title;
         Notification::send($subscribeUsers, new ThreadUpdateNotification("A reply was $event in thread <a style='font-weight: bold; color:blue' href='{$routeThread}'>$title</a>", $event));
     }

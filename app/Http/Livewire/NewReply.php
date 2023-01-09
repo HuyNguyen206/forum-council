@@ -7,6 +7,7 @@ use App\Rules\CaptchaVerify;
 use App\Rules\CheckSpam;
 use App\SpamRules\Spam;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\App;
 use Livewire\Component;
 
 class NewReply extends Component
@@ -41,10 +42,11 @@ class NewReply extends Component
         if (auth()->guest()) {
             return $this->redirect(route('login'));
         }
+
         abort_if($this->thread->is_lock, 403);
         $this->resetRecaptchaComponent();
-
         $this->validate();
+
         $this->reset('captchaToken');
         $this->thread->addReply(['body' => $this->body, 'user_id' => auth()->id()]);
 

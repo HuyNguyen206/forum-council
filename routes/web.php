@@ -31,7 +31,7 @@ Route::get('profile/{user}', [\App\Http\Controllers\ProfileController::class, 's
 Route::post('threads/{thread}/subscribe', [ThreadController::class, 'subscribe'])->name('threads.subscribe');
 Route::get('channels/threads/{channel?}', [ThreadController::class, 'index'])->name('channels.threads.index');
 Route::resource('threads', ThreadController::class)->except('index', 'show', 'destroy');
-Route::get('threads/{thread}/{slug}', [ThreadController::class, 'show'])->name('threads.show');
-Route::delete('threads/{thread}/{slug}', [ThreadController::class, 'destroy'])->name('threads.destroy');
+Route::get('threads/{thread}', [ThreadController::class, 'show'])->name('threads.show');
+Route::delete('threads/{thread}', [ThreadController::class, 'destroy'])->name('threads.destroy');
 
 require __DIR__.'/auth.php';
