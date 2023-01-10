@@ -1,5 +1,6 @@
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-12 gap-3">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg  col-span-8 ">
+      <livewire:pin-thread/>
         @foreach($threads as $thread)
             <livewire:thread-article :thread="$thread" wire:key="thread-{{$thread->id}}"/>
             <hr>

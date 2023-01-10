@@ -17,11 +17,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, PivotEventTrait;
 
-    public function isAdmin()
-    {
-        return $this->email === 'admin@gmail.com';
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -157,5 +152,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getPointFormat()
     {
         return $this->points . ' ' . Str::plural('xp', $this->points);
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->email, config('council.admins'), true);
     }
 }

@@ -58,6 +58,13 @@
                     <x-nav-link :href="route('threads.create')" :active="request()->routeIs('threads.create')">
                         {{ __('New thread') }}
                     </x-nav-link>
+
+                    @can('create', 'App\Models\Channel')
+                        <x-nav-link :href="route('channels.create')" :active="request()->routeIs('channels.create')">
+                            New Channel
+                        </x-nav-link>
+                    @endcan
+
                         <x-dropdown align="right" width="48" display="flex" align="top-value" top-value="10">
                             <x-slot name="trigger">
                                 <button

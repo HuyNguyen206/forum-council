@@ -8,6 +8,7 @@ use App\Services\ThreadsVisits;
 use App\Traits\RecordActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
@@ -53,6 +54,11 @@ class Thread extends Model
         }
 
         return $slug;
+    }
+
+    public function scopePinThread(\Illuminate\Database\Eloquent\Builder $query)
+    {
+         $query->where('is_pin', 1);
     }
 
     public function toggleLockThread()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Thread;
 use App\Services\ThreadsTrending;
 use Livewire\Component;
 use Livewire\WithPagination;

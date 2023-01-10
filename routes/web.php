@@ -26,12 +26,16 @@ Route::get('test', function (){
 
 Route::get('dashboard', fn() => view('dashboard'))->name('dashboard');
 
-Route::get('', fn() => view('welcome'))->name('dashboard');
+Route::get('', fn() => view('welcome'));
 Route::get('profile/{user}', [\App\Http\Controllers\ProfileController::class, 'show'])->name('users.profile');
 Route::post('threads/{thread}/subscribe', [ThreadController::class, 'subscribe'])->name('threads.subscribe');
 Route::get('channels/threads/{channel?}', [ThreadController::class, 'index'])->name('channels.threads.index');
 Route::resource('threads', ThreadController::class)->except('index', 'show', 'destroy');
 Route::get('threads/{thread}', [ThreadController::class, 'show'])->name('threads.show');
 Route::delete('threads/{thread}', [ThreadController::class, 'destroy'])->name('threads.destroy');
+
+Route::prefix('admin')->middleware(['auth', 'can:create,App\Models\\Channel'])->group(function (){
+    Route::view('channels/create', 'channels.create')->name('channels.create');
+});
 
 require __DIR__.'/auth.php';

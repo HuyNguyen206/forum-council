@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('channel_id')->constrained()->cascadeOnDelete();
+            $table->boolean('is_pin')->default(0);
             $table->boolean('is_lock')->default(0);
             $table->string('title');
             $table->string('slug')->unique();

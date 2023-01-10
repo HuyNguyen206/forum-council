@@ -96,4 +96,9 @@ class ThreadPolicy
     {
         //
     }
+
+    public function pin(User $user)
+    {
+        return $user->isAdmin();
+    }
 }

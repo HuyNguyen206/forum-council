@@ -15,13 +15,25 @@
         </span>
     </div>
     <div class="flex flex-col">
-        @can('delete', $thread)
-            <form action="{{$thread->destroyThreadPath()}}" method="post">
-                @csrf
-                @method('delete')
-                <x-button color="bg-red-400 text-white">Delete</x-button>
-            </form>
-        @endcan
+        @if($enableAction)
+            <div class="flex space-x-2">
+                @can('create', \App\Models\Thread::class)
+                    <form wire:submit.prevent="pinThread({{$thread->id}})">
+                        @csrf
+                        @method('delete')
+                        <x-button color="bg-green-800 text-white">Pin Thread</x-button>
+                    </form>
+                @endcan
+
+                @can('delete', $thread)
+                    <form action="{{$thread->destroyThreadPath()}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <x-button color="bg-red-400 text-white">Delete</x-button>
+                    </form>
+                @endcan
+            </div>
+        @endif
 
         <a class="inline-block w-1/12 text-right" href="">{{$thread->repliesCount}} {{\Illuminate\Support\Str::plural('reply', $thread->repliesCount)}}</a>
     </div>
