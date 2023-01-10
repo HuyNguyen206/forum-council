@@ -30,6 +30,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'is_enable_testing_for_algolia' => env('ENABLE_TESTING_FOR_ALGOLIA', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

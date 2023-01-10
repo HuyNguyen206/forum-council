@@ -16,6 +16,10 @@ class SearchTest extends TestCase
 
     public function test_user_can_search_thread()
     {
+        if (!config('app.is_enable_testing_for_algolia')) {
+            self::markTestSkipped('This test only for local env');
+        }
+
         config(['scout.driver' => 'algolia']);
 
         create(Thread::class, ['title' => 'test'], 2);

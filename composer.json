@@ -42,7 +42,7 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "Tests\\Utility\\function.php"
+            "tests\\Utility\\function.php"
         ]
     },
     "scripts": {
