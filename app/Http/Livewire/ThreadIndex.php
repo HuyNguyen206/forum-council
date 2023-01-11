@@ -11,6 +11,8 @@ class ThreadIndex extends Component
 {
     use WithPagination, GetThread;
 
+    protected $listeners = ['refresh'];
+
     public $channel;
 
     public function render()
@@ -19,5 +21,10 @@ class ThreadIndex extends Component
         $trendingThreads = app(ThreadsTrending::class)->get();
 
         return view('livewire.thread-index', compact('threads', 'trendingThreads'));
+    }
+
+    public function refresh()
+    {
+        $this->render();
     }
 }

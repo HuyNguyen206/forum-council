@@ -24,7 +24,7 @@ trait GetThread
             $builder = Thread::query();
         }
 
-        $builder = $builder->withCount('replies as repliesCount')->with('user')->latest();
+        $builder = $builder->withCount('replies as repliesCount')->with('user')->orderByDesc('is_pin')->latest('updated_at');
 
         return ThreadFilter::filter($builder)->paginate(5, pageName:'page-thread')->withQueryString();
     }

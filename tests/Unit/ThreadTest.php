@@ -8,6 +8,7 @@ use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 

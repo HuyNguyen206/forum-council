@@ -15,8 +15,17 @@ class ThreadArticle extends Component
         return view('livewire.thread-article');
     }
 
-    public function pinThread($threadId)
+    public function pinThread()
     {
-        $this->emitTo(PinThread::class, 'pinThread', $threadId);
+        $this->thread->update(['is_pin' => 1]);
+
+        $this->emitTo(ThreadIndex::class, 'refresh');
+    }
+
+    public function unpinThread()
+    {
+        $this->thread->update(['is_pin' => 0]);
+
+        $this->emitTo(ThreadIndex::class, 'refresh');
     }
 }

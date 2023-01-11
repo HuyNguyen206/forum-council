@@ -15,20 +15,28 @@
         </span>
     </div>
     <div class="flex flex-col">
+        @if($thread->is_pin)
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+            </svg>
+            @can('create', \App\Models\Thread::class)
+                <form wire:submit.prevent="unpinThread">
+                    <x-button color="bg-green-800 text-white">Unpin Thread</x-button>
+                </form>
+            @endcan
+        @endif
+
         @if($enableAction)
             <div class="flex space-x-2">
                 @can('create', \App\Models\Thread::class)
-                    <form wire:submit.prevent="pinThread({{$thread->id}})">
-                        @csrf
-                        @method('delete')
+                    <form wire:submit.prevent="pinThread">
                         <x-button color="bg-green-800 text-white">Pin Thread</x-button>
                     </form>
                 @endcan
 
                 @can('delete', $thread)
                     <form action="{{$thread->destroyThreadPath()}}" method="post">
-                        @csrf
-                        @method('delete')
                         <x-button color="bg-red-400 text-white">Delete</x-button>
                     </form>
                 @endcan
