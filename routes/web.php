@@ -36,6 +36,7 @@ Route::prefix('admin')->middleware(['auth', 'can:create,App\Models\\Channel'])->
     Route::get('channels', [\App\Http\Controllers\ChannelController::class, 'index'])->name('channels.index');
     Route::get('channels/edit/{channel}', [\App\Http\Controllers\ChannelController::class, 'edit'])->name('channels.edit');
     Route::view('channels/create', 'channels.create')->name('channels.create');
+    Route::patch('channels/archive/{channel}', [\App\Http\Controllers\ChannelController::class, 'toggleArchive'])->name('channels.toggle-archive');
 });
 
 Route::redirect('dashboard','channels/threads')->name('dashboard');

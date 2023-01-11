@@ -18,14 +18,19 @@
         </thead>
         <tbody>
         @foreach($channels as $channel)
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr class="{{$channel->is_archive ? 'bg-red-300' : 'bg-white'}} border-b dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$channel->name}}
                 </th>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 flex space-x-2">
                     <form action="{{route('channels.edit', $channel->slug)}}">
                         @csrf
                         <x-button>Edit</x-button>
+                    </form>
+                    <form action="{{route('channels.toggle-archive', $channel->slug)}}" method="post">
+                        @csrf
+                        @method('patch')
+                        <x-button bgColor="bg-red-500">{{$channel->is_archive ? 'Unarchived' : 'Archive'}}</x-button>
                     </form>
                 </td>
             </tr>

@@ -14,11 +14,17 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        $channels = Channel::latest('updated_at')->paginate(10);
+        $channels = Channel::withoutGlobalScopes()->latest()->paginate(10);
 
         return view('channels.index', compact('channels'));
     }
 
+    public function toggleArchive(Channel $channel)
+    {
+        $channel->update(['is_archive' => !$channel->is_archive]);
+
+        return redirect()->back();
+    }
 
     /**
      * Store a newly created resource in storage.

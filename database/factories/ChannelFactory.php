@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,8 @@ class ChannelFactory extends Factory
     {
         return [
             'name' => $name = $this->faker->word,
-            'slug' => Str::slug($name)
+            'slug' => Str::slug($name),
+            'is_archive' => false
         ];
     }
 }

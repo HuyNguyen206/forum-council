@@ -24,4 +24,13 @@ abstract class TestCase extends BaseTestCase
 
         return $user;
     }
+
+    protected function signInAdmin()
+    {
+        $user = create(User::class, ['email' => 'admin@gmail.com']);
+
+        $this->actingAs($user);
+
+        return $user;
+    }
 }

@@ -30,7 +30,6 @@ class EditChannel extends Component
         $this->validate();
 
         $this->channel->save();
-        Cache::forget('channels');
 
         return $this->redirect(route('channels.index'));
     }

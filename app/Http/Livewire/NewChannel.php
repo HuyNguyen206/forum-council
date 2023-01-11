@@ -33,7 +33,6 @@ class NewChannel extends Component
         Channel::create([
            'name' => $this->name
         ]);
-        Cache::forget('channels');
 
         return $this->redirect(route('channels.index'));
     }
