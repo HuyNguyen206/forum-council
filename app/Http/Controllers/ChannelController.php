@@ -14,19 +14,11 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        //
+        $channels = Channel::latest('updated_at')->paginate(10);
+
+        return view('channels.index', compact('channels'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -58,7 +50,7 @@ class ChannelController extends Controller
      */
     public function edit(Channel $channel)
     {
-        //
+        return view('channels.edit', compact('channel'));
     }
 
     /**

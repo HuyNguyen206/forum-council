@@ -7,32 +7,29 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
-class NewChannel extends Component
+class EditChannel extends Component
 {
     use AuthorizesRequests;
+    public Channel $channel;
 
-    public $name;
+    public function render()
+    {
+        return view('livewire.edit-channel');
+    }
 
     public function rules()
     {
         return [
-            'name' => ['required', 'min:3', 'max:50'],
+            'channel.name' => ['required', 'unique:channels,name', 'min:3', 'max:50'],
         ];
     }
 
-    public function render()
+    public function updateChannel()
     {
-        return view('livewire.new-channel');
-    }
-
-    public function storeNewChannel()
-    {
-        $this->authorize('create', Channel::class);
+//        $this->authorize('create', Channel::class);
         $this->validate();
 
-        Channel::create([
-           'name' => $this->name
-        ]);
+        $this->channel->save();
         Cache::forget('channels');
 
         return $this->redirect(route('channels.index'));

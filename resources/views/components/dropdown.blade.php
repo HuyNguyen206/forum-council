@@ -25,9 +25,15 @@
 @endphp
 
 <div class="relative {{$display}}" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
-    <div @class($display)  @click="open = ! open">
-        {{ $trigger }}
+    <div class="flex space-x-2">
+        <div>
+            {{$admin ?? null}}
+        </div>
+        <div @class($display)  @click="open = ! open">
+            {{ $trigger }}
+        </div>
     </div>
+
 
     <div x-show="open"
          x-transition:enter="transition ease-out duration-200"
