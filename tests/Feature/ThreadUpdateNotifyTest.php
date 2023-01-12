@@ -5,14 +5,13 @@ namespace Tests\Feature;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 
 class ThreadUpdateNotifyTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     public function test_show_thread_bold_will_create_cache_key()
     {

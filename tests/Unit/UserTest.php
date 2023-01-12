@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -11,7 +10,8 @@ use Tests\Traits\RefreshRedis;
 
 class UserTest extends TestCase
 {
-     use RefreshDatabase, RefreshRedis;
+     use RefreshRedis;
+
      public function test_user_can_determine_avatar_path()
      {
          $user = create(User::class);

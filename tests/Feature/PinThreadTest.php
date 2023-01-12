@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Http\Livewire\ThreadArticle;
 use App\Http\Livewire\ThreadIndex;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
@@ -13,7 +12,7 @@ use Tests\Traits\VerifyEmail;
 
 class PinThreadTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis, VerifyEmail;
+    use RefreshRedis, VerifyEmail;
 
     public function test_pinned_thread_come_first()
     {

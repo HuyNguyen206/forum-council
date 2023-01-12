@@ -3,13 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 
 class ProfileTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     public function test_a_user_has_a_profile()
     {

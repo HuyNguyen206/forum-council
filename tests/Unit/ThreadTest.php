@@ -6,15 +6,13 @@ use App\Models\Channel;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 
 class ThreadTest extends TestCase
 {
-     use RefreshDatabase, RefreshRedis;
+     use RefreshRedis;
     /**
      * A basic unit test example.
      *

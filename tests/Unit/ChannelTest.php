@@ -6,15 +6,13 @@ use App\Http\Livewire\NewChannel;
 use App\Models\Channel;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
-use function Pest\Laravel\assertDatabaseHas;
 
 class ChannelTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     public function test_a_channel_consist_of_threads()
     {

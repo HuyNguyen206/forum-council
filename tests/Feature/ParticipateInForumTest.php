@@ -7,7 +7,6 @@ use App\Http\Livewire\NewReply;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
@@ -15,7 +14,7 @@ use Tests\Traits\VerifyEmail;
 
 class ParticipateInForumTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis, VerifyEmail;
+    use RefreshRedis, VerifyEmail;
 
     protected function setUp(): void
     {

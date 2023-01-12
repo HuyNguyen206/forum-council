@@ -5,15 +5,15 @@ namespace Tests\Feature;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 use Tests\Traits\VerifyEmail;
+use function PHPUnit\Framework\assertCount;
 
 class BestReplyTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis, VerifyEmail;
+    use RefreshRedis, VerifyEmail;
 
     public function test_a_thread_creator_may_mark_any_reply_as_the_best_reply()
     {
@@ -63,6 +63,21 @@ class BestReplyTest extends TestCase
         $livewire ->call('toggleBestReply');
         self::assertNull($thread->fresh()->best_reply_id);
         self::assertNotEquals($thread->fresh()->best_reply_id, $reply2->id);
+    }
+
+    public function test_best_reply_id_set_to_null_when_best_reply_was_removed()
+    {
+        $thread = create(Thread::class);
+        create(Reply::class, [], 5);
+        assertCount(5, $replies = Reply::all());
+        $bestReply = $replies->first();
+        $thread->toggleBestReply($bestReplyId = $bestReply->id);
+        self::assertEquals($thread->fresh()->best_reply_id, $bestReplyId);
+
+        $bestReply->delete();
+        assertCount(4, Reply::all());
+
+        self::assertNull($thread->fresh()->best_reply_id);
     }
 
 }

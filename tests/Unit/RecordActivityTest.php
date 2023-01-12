@@ -4,13 +4,12 @@ namespace Tests\Unit;
 
 use App\Models\Reply;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 
 class RecordActivityTest extends TestCase
 {
-     use RefreshDatabase, RefreshRedis;
+     use RefreshRedis;
 
      public function test_create_thread_also_record_activity()
      {

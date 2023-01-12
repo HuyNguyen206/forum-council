@@ -7,7 +7,6 @@ use App\Models\Channel;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
@@ -15,7 +14,7 @@ use Tests\Traits\VerifyEmail;
 
 class CreateThreadTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis, VerifyEmail;
+    use RefreshRedis, VerifyEmail;
 
     public function test_authenticate_user_can_creat_a_new_forum_threads()
     {

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Http\Livewire\SearchThread;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
@@ -12,7 +11,7 @@ use Tests\Traits\VerifyEmail;
 
 class SearchTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis, VerifyEmail;
+    use RefreshRedis, VerifyEmail;
 
     public function test_user_can_search_thread()
     {

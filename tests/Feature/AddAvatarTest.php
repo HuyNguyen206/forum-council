@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Http\Livewire\AvatarUpload;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
@@ -13,7 +12,7 @@ use Tests\Traits\RefreshRedis;
 
 class AddAvatarTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     public function test_only_authenticate_user_can_upload_avatar()
     {
