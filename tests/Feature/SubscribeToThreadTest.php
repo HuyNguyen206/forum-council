@@ -8,7 +8,6 @@ use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
 use App\Notifications\ThreadUpdateNotification;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -16,7 +15,7 @@ use Tests\Traits\RefreshRedis;
 
 class SubscribeToThreadTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     protected function setUp(): void
     {

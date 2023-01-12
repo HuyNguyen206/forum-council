@@ -3,13 +3,12 @@
 
 use App\Models\Reply;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 
 class ReplyTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
     /**
      * A basic feature test example.
      *

@@ -5,14 +5,13 @@ namespace Tests\Feature;
 use App\Models\Favorite;
 use App\Models\Reply;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 
 class FavoriteTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     public function test_guest_user_can_not_favorite_any_reply()
     {

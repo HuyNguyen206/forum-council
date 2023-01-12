@@ -3,13 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
 
 class ThreadTrendingTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     public function test_it_can_store_and_sort_trending_threads_correctly_each_time_the_thread_is_viewed()
     {

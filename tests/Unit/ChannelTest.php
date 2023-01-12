@@ -6,15 +6,13 @@ use App\Http\Livewire\NewChannel;
 use App\Models\Channel;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
-use function Pest\Laravel\assertDatabaseHas;
 
 class ChannelTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     public function test_a_channel_consist_of_threads()
     {
@@ -58,7 +56,7 @@ class ChannelTest extends TestCase
         $this->signInAdmin();
         $channel = create(Channel::class, ['name' => $name = 'This is channel name']);
         self::assertFalse($channel->is_archive);
-        $this->patch(route('channels.archive', $channel->slug));
+        $this->patch(route('channels.toggle-archive', $channel->slug));
         self::assertTrue($channel->fresh()->is_archive);
     }
 }

@@ -2,11 +2,10 @@
 
 namespace {{ namespace }};
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class {{ class }} extends TestCase
 {
-     use RefreshDatabase, RefreshRedis, VerifyEmail;
+     use RefreshRedis, VerifyEmail;
 
 }

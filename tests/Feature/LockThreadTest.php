@@ -6,7 +6,6 @@ use App\Http\Livewire\NewReply;
 use App\Http\Livewire\ThreadInformation;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\RefreshRedis;
@@ -14,7 +13,7 @@ use Tests\Traits\VerifyEmail;
 
 class LockThreadTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis, VerifyEmail;
+    use RefreshRedis, VerifyEmail;
 
     public function test_an_admin_can_lock_any_thread()
     {

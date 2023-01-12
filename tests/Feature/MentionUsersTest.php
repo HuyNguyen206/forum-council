@@ -6,7 +6,6 @@ use App\Http\Livewire\NewReply;
 use App\Models\Thread;
 use App\Models\User;
 use App\Notifications\MentionedNotification;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -14,7 +13,7 @@ use Tests\Traits\RefreshRedis;
 
 class MentionUsersTest extends TestCase
 {
-    use RefreshDatabase, RefreshRedis;
+    use RefreshRedis;
 
     protected function setUp(): void
     {
