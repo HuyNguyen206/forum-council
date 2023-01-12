@@ -19,8 +19,6 @@ class ProfileController extends Controller
 
     public function show(User $user)
     {
-        $user->load('activities.subject');
-//        dd(Activities::all());
         $activities = $user->activities()->with([
             'subject' => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
