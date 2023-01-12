@@ -27,17 +27,17 @@ class DatabaseSeeder extends Seeder {
             'email' => 'nguyenlehuyuit@gmail.com',
         ]);
 
-        $admin = \App\Models\User::factory()->create([
+        \App\Models\User::factory()->create([
             'name' => 'admin',
             'name_slug' => 'admin',
             'email' => 'admin@gmail.com',
         ]);
 
-        Auth::login($user);
+//        Auth::login($user);
         Channel::factory(10)->create();
-        $users = \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
-        $users->each(function ($user) {
+        User::all()->each(function ($user) {
             Thread::factory(rand(1, 2))
                 ->create(['user_id' => $user->id, 'channel_id' => Channel::query()->inRandomOrder()->value('id')])
                 ->each(function ($thread) {
@@ -49,11 +49,13 @@ class DatabaseSeeder extends Seeder {
                 });
         });
 
-        \App\Models\Activities::factory(2)->create(['user_id' => $user->id, 'created_at' =>
-            \Illuminate\Support\Carbon::now()->subDay()]);
+//        Thread::factory()->create()
 
-        \App\Models\Activities::factory(2)->create(['user_id' => $user->id, 'created_at' =>
-            \Illuminate\Support\Carbon::now()->subDay(2)]);
+//        \App\Models\Activities::factory(2)->create(['user_id' => $user->id, 'created_at' =>
+//            \Illuminate\Support\Carbon::now()->subDay()]);
+//
+//        \App\Models\Activities::factory(2)->create(['user_id' => $user->id, 'created_at' =>
+//            \Illuminate\Support\Carbon::now()->subDay(2)]);
 
 
     }

@@ -11,3 +11,6 @@
     <span class="text-sm text-gray-400">{{ $activity->created_at->diffForHumans()}}</span>
 </div>
 </article>
+<div class="pl-4 mt-2">
+    <span class="badge-xp inline-block p-3 bg-green-700 text-white">+ {{\App\Reputation::REPLY_POSTED}} XP</span>
+</div>

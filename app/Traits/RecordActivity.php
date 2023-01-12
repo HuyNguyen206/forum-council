@@ -16,26 +16,32 @@ trait RecordActivity
 {
     protected static array $recordEvents = ['created', 'deleting', 'updated'];
 
+    /**
+     * @param Reply $model
+     * @return void
+     */
+
     protected static function bootRecordActivity()
     {
         foreach (static::$recordEvents as $event) {
             static::$event(function (Model $model) use ($event) {
-                if ($isAuth = auth()->check()) {
+                  $user = auth()->user() ?? $model->user;
+//                if ($isAuth = auth()->check()) {
                     if ($event === 'deleting') {
                         static::handleDeleting($model);
                     } else {
-                        $model->activities()->create(['type' => strtolower(class_basename($model)) . "_$event", 'user_id' => auth()->id()]);
+                        $model->activities()->create(['type' => strtolower(class_basename($model)) . "_$event", 'user_id' => $user->id]);
                     }
-                }
-                if ($event === 'deleting') {
-                    if ($model instanceof Thread) {
-                        Reputation::reduce(Reputation::THREAD_WAS_CREATED, $model->user);
-                    }
-
-                    if ($model instanceof Reply) {
-                        Reputation::reduce(Reputation::REPLY_POSTED, $model->user);
-                    }
-                }
+//                }
+//                if ($event === 'deleting') {
+//                    if ($model instanceof Thread) {
+//                        Reputation::reduce(Reputation::THREAD_WAS_CREATED, $model->user);
+//                    }
+//
+//                    if ($model instanceof Reply) {
+//                        Reputation::reduce(Reputation::REPLY_POSTED, $model->user);
+//                    }
+//                }
             });
         }
     }
@@ -52,10 +58,13 @@ trait RecordActivity
     static function handleDeleting(Model $model): void
     {
         $model->activities()->delete();
+        $isDeleteThread = false;
         if ($model instanceof Thread) {
             Activities::query()->whereHasMorph('subject', Reply::class, function (Builder $builder) use ($model) {
                 $builder->whereBelongsTo($model);
             })->delete();
+
+            $isDeleteThread = true;
         }
 
         if ($model instanceof Reply) {
@@ -68,6 +77,9 @@ trait RecordActivity
 //                $favorite->activities()->delete();
 //            });
         }
+
+        Reputation::reduce($isDeleteThread ? Reputation::THREAD_WAS_CREATED : Reputation::REPLY_POSTED, $model->user);
+
     }
 
     /**

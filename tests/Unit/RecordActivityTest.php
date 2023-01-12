@@ -13,13 +13,12 @@ class RecordActivityTest extends TestCase
 
      public function test_create_thread_also_record_activity()
      {
-         $user = $this->signIn();
         $thread = create(Thread::class);
 
         $this->assertDatabaseHas('activities', [
             'subject_id' => $thread->id,
             'subject_type' => Thread::class,
-            'user_id' => $user->id,
+            'user_id' => $thread->user_id,
             'type' => 'thread_created'
         ]);
 
@@ -28,13 +27,12 @@ class RecordActivityTest extends TestCase
 
      public function test_create_reply_also_record_activity()
      {
-         $user = $this->signIn();
         $reply = create(Reply::class);
 
         $this->assertDatabaseHas('activities', [
             'subject_id' => $reply->id,
             'subject_type' => Reply::class,
-            'user_id' => $user->id,
+            'user_id' => $reply->user_id,
             'type' => 'reply_created'
         ]);
 

@@ -12,4 +12,7 @@
     <p>
         {{$activity->subject->body}}
     </p>
+    <div class="pl-4 mt-2">
+        <span class="badge-xp inline-block p-3 bg-green-700 text-white">+ {{\App\Reputation::THREAD_WAS_CREATED}} XP</span>
+    </div>
 </article>
