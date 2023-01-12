@@ -105,4 +105,22 @@ class ThreadTest extends TestCase
         $thread->update(['title' => 'this is updated title']);
         self::assertEquals($thread->slug, 'this-is-updated-title');
     }
+
+    public function test_block_create_thread_with_archive_channel()
+    {
+        $archiveChannel = create(Channel::class, ['is_archive' => true]);
+
+        $this->actingAs($user = create(User::class))->post(route('threads.store'), [
+            'channel_id' => $archiveChannel->id,
+            'title' => 'test',
+            'body' => 'test'
+        ])->assertSessionHasErrors('channel_id');
+
+        $this->assertDatabaseMissing('threads', [
+            'user_id' => $user->id,
+            'title' => 'test',
+            'body' => 'test',
+            'channel_id' => $archiveChannel->id
+        ]);
+    }
 }

@@ -45,7 +45,9 @@ class ThreadController extends Controller
         $validated = $request->validate([
             'title' => ['required', new CheckSpam(Thread::class, 'title')],
             'body' => ['required', new CheckSpam(Thread::class, 'body')],
-            'channel_id' => ['required', Rule::exists('channels', 'id')]
+            'channel_id' => ['required', Rule::exists('channels', 'id')->where(function ($query){
+                $query->where('is_archive', false);
+            })]
         ]);
 
         $thread = $request->user()->threads()->create($validated);

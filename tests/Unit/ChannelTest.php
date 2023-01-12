@@ -58,7 +58,19 @@ class ChannelTest extends TestCase
         $this->signInAdmin();
         $channel = create(Channel::class, ['name' => $name = 'This is channel name']);
         self::assertFalse($channel->is_archive);
-        $this->patch(route('channels.archive', $channel->slug));
+        $this->patch(route('channels.toggle-archive', $channel->slug));
         self::assertTrue($channel->fresh()->is_archive);
+    }
+
+    public function test_admin_can_unarchive_channel()
+    {
+        $this->withoutExceptionHandling();
+        $this->signInAdmin();
+        $channel = create(Channel::class, ['name' => $name = 'This is channel name']);
+        self::assertFalse($channel->is_archive);
+        $this->patch(route('channels.toggle-archive', $channel->slug));
+        self::assertTrue($channel->fresh()->is_archive);
+        $this->patch(route('channels.toggle-archive', $channel->slug));
+        self::assertFalse($channel->fresh()->is_archive);
     }
 }
