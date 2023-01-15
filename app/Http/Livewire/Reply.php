@@ -84,4 +84,5 @@ class Reply extends Component
         $this->isFavorite = ! $this->isFavorite;
         $this->favoriteUsersCount = $this->reply->loadCount('favoriteUsers as favoriteUsersCount')->favoriteUsersCount;
     }
+
 }

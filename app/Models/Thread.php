@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\Action\RepliesBuilder;
 use App\Models\Traits\ThreadUpdateHighlight;
 use App\Reputation;
 use App\Services\ThreadsVisits;
 use App\Traits\RecordActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
@@ -36,7 +36,7 @@ class Thread extends Model
             $thread->slug = static::generateUniqueSlug(Str::slug($thread->title));
         });
 
-        static::updating(function (Thread $thread){
+        static::updating(function (Thread $thread) {
             $thread->slug = Str::slug($thread->title);
         });
     }
@@ -58,7 +58,7 @@ class Thread extends Model
 
     public function scopePinThread(\Illuminate\Database\Eloquent\Builder $query)
     {
-         $query->where('is_pin', 1);
+        $query->where('is_pin', 1);
     }
 
     public function toggleLockThread()
@@ -75,9 +75,17 @@ class Thread extends Model
         Reputation::award(Reputation::BEST_REPLY_AWARDED, Reply::find($replyId)->user);
     }
 
-    public function showThreadPath()
+    public function showThreadPath($replyId = null, $thread = null)
     {
-        return route('threads.show', [$this->slug]);
+        if (!$replyId) {
+            return route('threads.show', [$this->slug]);
+        }
+
+        $thread ??= Reply::find($replyId)->thread;
+        $repliesBuilder = RepliesBuilder::build($thread);
+        $position = $repliesBuilder->get('id')->pluck('id')->search($replyId);
+        $page = ceil(($position + 1) / config('council.pagination.perPage'));
+        return route('threads.show', [$this->slug, 'page-reply' => $page]) . "#reply-$replyId";
     }
 
     public function destroyThreadPath()
