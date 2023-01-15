@@ -1,6 +1,6 @@
 <?php
 
-test('user earn 10 points when they create thread ', function () {
+test('user earn 10 points when they create thread', function () {
     $user = signIn();
     \PHPUnit\Framework\assertEquals($user->points, 0);
     \Pest\Laravel\post(route('threads.store'), \App\Models\Thread::factory()->raw());

@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Activities;
 use App\Models\Reply;
-use App\Models\Thread;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -29,6 +25,7 @@ class ProfileController extends Controller
             ->paginate(5);
 
         $activitiesGroupByDate = $activities->groupBy(fn($activity) => $activity->created_at->format('Y-m-d'));
+//        dd($activitiesGroupByDate);
 //        $threads = Thread::query()
 //            ->whereBelongsTo($user)
 //            ->withCount('replies as repliesCount')

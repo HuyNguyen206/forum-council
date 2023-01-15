@@ -13,6 +13,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test-cache', function (){
+//    $a = 'test';
+//    dump($a);
+//    unset($a);
+//    dump($a);
+//   $thread = \App\Models\Thread::first();
+//   $user = $thread->user;
+//   $userA = $thread->user;
+//   dd($user, $userA);
+//   $name = $thread->user->name;
+//   $email = $thread->user->email;
+
+   return view('welcome');
+});
 //Route::post('avatar/upload', function () {
 //    $path = request()->file('photo')->store('photos');
 //    request()->user()->update(['image_path' => $path]);

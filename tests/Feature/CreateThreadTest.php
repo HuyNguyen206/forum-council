@@ -193,6 +193,20 @@ class CreateThreadTest extends TestCase
         $this->assertDatabaseHas('threads', ['title' => 'update 2', 'body' => 'update']);
     }
 
+    public function test_it_can_show_correct_page_with_reply()
+    {
+        config(['council.pagination.perPage' => 1]);
+        $thread = create(Thread::class);
+        $oldestReply = create(Reply::class, ['thread_id' => $thread->id], 3)->first();
+
+        $threadPath = $thread->showThreadPath($oldestReply->id, $thread);
+        self::assertStringContainsString('page-reply=3', $threadPath);
+
+        create(Reply::class, ['thread_id' => $thread->id], 3);
+        $threadPath = $thread->showThreadPath($oldestReply->id, $thread);
+        self::assertStringContainsString('page-reply=6', $threadPath);
+    }
+
     private function publishThread($attributes = [])
     {
         $channel = Channel::factory()->create();
